@@ -1,10 +1,14 @@
 package tw.brad.spring3.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tw.brad.spring3.entity.MemberForm;
 import tw.brad.spring3.entity.User;
 
 /*
@@ -37,10 +41,27 @@ public class TestController {
 		user.setName("Brad");
 		user.setAge(17);
 		user.setGender(false);
+		
 		model.addAttribute("user", user);
 		
+		String now = 
+			LocalDateTime.now().format(
+				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
+		model.addAttribute("now", now);
 		
 		return "page1";
 	}
+	
+	@GetMapping("/member/register")
+	public String register(Model model) {
+		
+		MemberForm form = new MemberForm();
+		form.setAccount("brad");
+		
+		model.addAttribute("memberForm", form);
+		
+		return "member/register";
+	}
+	
 	
 }
