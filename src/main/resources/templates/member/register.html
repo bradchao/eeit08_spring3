@@ -21,7 +21,20 @@
 				<label>Name: </label>
 				<input type="text" th:field="*{name}" required="required" />
 			</div>
+			<div>
+				<label>Area: </label>
+				<select th:field="*{area}">
+					<!--  
+					<option th:each="a : ${areas}" th:text="${a}" th:value="${a}"></option>
+					-->
+					<option th:each="a : ${areas}" th:text="${a.name}" th:value="${a.zipcode}"></option>
+					
+				</select>
+			</div>
+			
+			
 			<button type="submit">Register</button>
 		</form>	
+		<div th:if="${status}" th:text="${status}"></div>
 	</body>
 </html>
