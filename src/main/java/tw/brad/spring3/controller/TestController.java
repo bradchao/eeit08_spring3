@@ -7,13 +7,17 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import tw.brad.spring3.entity.MemberForm;
 import tw.brad.spring3.entity.User;
+import tw.brad.spring3.entity.UserForm;
 
 /*
  * request -> Controller (Model) -> Model 網頁需要的資料
@@ -90,6 +94,36 @@ public class TestController {
 		model.addAttribute("status", "註冊成功");
 		
 		return "member/register";
+	}
+	@GetMapping("/page2/{status}")
+	public String page2(Model model, @PathVariable String status) {
+		model.addAttribute("status", status);
+		return "page2";
+	}
+	
+	@GetMapping("/page3")
+	public String page3(Model model) {
+		model.addAttribute("userForm", new UserForm());
+		return "page3";
+	}
+	
+	@PostMapping("/page3")
+	public String page3post(Model model,
+			@ModelAttribute @Valid UserForm userForm,
+			BindingResult bindResult) {
+		
+		if (bindResult.hasErrors()) {
+			return "page3";
+		}
+		
+		return "page4";
+	}
+	
+	@GetMapping("/page5")
+	public String page5(Model model) {
+		List<String> areas = List.of("北屯區","南屯區","西屯區","北區","西區");
+		model.addAttribute("areas", areas);
+		return "page5";
 	}
 	
 }
